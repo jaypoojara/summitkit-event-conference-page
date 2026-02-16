@@ -1,10 +1,34 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, ArrowRight, Sparkles } from "lucide-react";
+import { Check, ArrowRight, Sparkles, Loader2 } from "lucide-react";
 import { TICKETS } from "@/lib/data";
 
 export default function TicketsSection() {
+  const [loadingId, setLoadingId] = useState<string | null>(null);
+
+  async function handleCheckout(ticketId: string) {
+    setLoadingId(ticketId);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ticketId }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error("Checkout error:", data.error);
+        setLoadingId(null);
+      }
+    } catch (err) {
+      console.error("Checkout error:", err);
+      setLoadingId(null);
+    }
+  }
+
   return (
     <section
       id="tickets"
@@ -99,17 +123,27 @@ export default function TicketsSection() {
               </ul>
 
               {/* CTA */}
-              <a
-                href="#"
-                className={`flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold transition-all ${
+              <button
+                onClick={() => handleCheckout(ticket.id)}
+                disabled={loadingId === ticket.id}
+                className={`flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold transition-all disabled:opacity-70 ${
                   ticket.highlighted
                     ? "bg-accent text-white shadow-lg shadow-accent/25 hover:bg-accent-hover hover:shadow-xl hover:shadow-accent/30"
                     : "border border-white/20 bg-white/5 text-white hover:border-white/30 hover:bg-white/10"
                 }`}
               >
-                {ticket.cta}
-                <ArrowRight className="h-4 w-4" />
-              </a>
+                {loadingId === ticket.id ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Redirecting…
+                  </>
+                ) : (
+                  <>
+                    {ticket.cta}
+                    <ArrowRight className="h-4 w-4" />
+                  </>
+                )}
+              </button>
             </motion.div>
           ))}
         </div>

@@ -13,6 +13,7 @@
 
 ## Pages
 - **Homepage** (`/`) — Single-page event site with all sections, smooth-scroll navigation
+- **Checkout Success** (`/checkout/success`) — Confirmation page shown after successful Stripe payment
 
 ## Sections (in order)
 1. **Navbar** — Sticky navigation with smooth-scroll links and "Get Tickets" CTA. Mobile hamburger menu with animated open/close.
@@ -36,7 +37,7 @@
 - **StatsSection** (`components/StatsSection.tsx`) — Event statistics strip
 - **ScheduleSection** (`components/ScheduleSection.tsx`) — Multi-track schedule with day/track filters
 - **SpeakersSection** (`components/SpeakersSection.tsx`) — Speaker grid with bio modals
-- **TicketsSection** (`components/TicketsSection.tsx`) — 3-tier pricing cards
+- **TicketsSection** (`components/TicketsSection.tsx`) — 3-tier pricing cards with Stripe Checkout integration
 - **VenueSection** (`components/VenueSection.tsx`) — Venue info with embedded map
 - **SponsorsSection** (`components/SponsorsSection.tsx`) — Tiered sponsor logos
 - **NetworkingSection** (`components/NetworkingSection.tsx`) — Networking features + attendee directory
@@ -63,14 +64,30 @@ All event data lives in `lib/data.ts`. This includes:
 - **Change colors:** Edit `app/globals.css` — update CSS custom properties in `:root`
 - **Change fonts:** Edit `app/layout.tsx` — swap Google Fonts imports
 
+## Stripe Checkout Setup
+Ticket buttons now trigger real Stripe Checkout. To activate payments:
+1. Get your API keys from [Stripe Dashboard](https://dashboard.stripe.com/apikeys)
+2. Add them to `.env.local`:
+   - `STRIPE_SECRET_KEY` — your secret key (starts with `sk_test_` or `sk_live_`)
+   - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` — your publishable key (starts with `pk_test_` or `pk_live_`)
+3. (Optional) Add Stripe Price IDs to each ticket in `lib/data.ts` via the `stripePriceId` field for production use
+
+**Files involved:**
+- `app/api/checkout/route.ts` — creates Stripe Checkout sessions
+- `app/checkout/success/page.tsx` — confirmation page after payment
+- `components/TicketsSection.tsx` — ticket buttons that trigger checkout
+- `.env.local` — Stripe API keys (not committed to git)
+
 ## Tech Stack
 - Next.js 16 (App Router)
 - Tailwind CSS v4
 - Framer Motion (animations)
 - Lucide React (icons)
+- Stripe (payments)
 - TypeScript
 
 ## Recent Changes
 - 2026-02-16: Created complete SummitKit event/conference template with all 13 sections
 - 2026-02-16: Improved Sponsors section — added rich Gold/Silver/Bronze card designs with gradient icons, hover effects, and "Become a Sponsor" CTA
 - 2026-02-16: Complete color palette overhaul — switched from black/red to ocean teal (#0891B2) + amber (#D97706) palette with deep blue (#0C4A6E) dark sections. Fixed Tailwind v4 theme variable resolution. Updated all gradient references across Hero, Speakers, Tickets, CTA, Replay sections.
+- 2026-02-16: Added Stripe Checkout integration — ticket buttons now create real checkout sessions, success page after payment, loading states on buttons.

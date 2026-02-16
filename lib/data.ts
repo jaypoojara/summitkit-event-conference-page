@@ -569,6 +569,7 @@ export interface TicketTier {
   highlighted: boolean;
   badge?: string;
   cta: string;
+  stripePriceId?: string; // Add your Stripe Price ID here (e.g. "price_1abc...")
 }
 
 export const TICKETS: TicketTier[] = [
