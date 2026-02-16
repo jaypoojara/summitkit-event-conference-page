@@ -18,7 +18,7 @@
 ## Sections (in order)
 1. **Navbar** — Sticky navigation with smooth-scroll links and "Get Tickets" CTA. Mobile hamburger menu with animated open/close.
 2. **Hero** — Full-screen dark section with gradient orbs, event name, countdown timer, date/location, and two CTAs (Get Tickets / View Schedule). Early Bird badge with animated dot.
-3. **Stats Strip** — Floating white card with 6 event stats: 2,000+ attendees, 40+ speakers, 3 tracks, 3 days, 12 workshops, 30+ countries.
+3. **Stats Strip** — 6 individual glass-morphism stat cards with unique gradient accents per stat, animated count-up numbers, hover lift effects, and color-coded gradient icons. Each card has a colored top accent line and subtle background tint on hover.
 4. **Schedule** — Dark section with multi-track schedule builder. Day tabs (3 days) with animated pill indicator. Track filter pills (All, Main Stage, Workshop A, Workshop B, Networking). Session cards with color-coded left borders per track, speaker info, time, room, and session type badges.
 5. **Speakers** — Light section with 12 speaker profile cards in a 4-column grid. Gradient avatar placeholders. Click to open animated modal with full bio, topic, and social links.
 6. **Tickets** — Dark section with 3 pricing tiers: Early Bird ($299, was $499), General ($499, highlighted as "Most Popular"), VIP ($899). Feature comparison lists. Badges for each tier.
@@ -91,3 +91,4 @@ Ticket buttons now trigger real Stripe Checkout. To activate payments:
 - 2026-02-16: Improved Sponsors section — added rich Gold/Silver/Bronze card designs with gradient icons, hover effects, and "Become a Sponsor" CTA
 - 2026-02-16: Complete color palette overhaul — switched from black/red to ocean teal (#0891B2) + amber (#D97706) palette with deep blue (#0C4A6E) dark sections. Fixed Tailwind v4 theme variable resolution. Updated all gradient references across Hero, Speakers, Tickets, CTA, Replay sections.
 - 2026-02-16: Added Stripe Checkout integration — ticket buttons now create real checkout sessions, success page after payment, loading states on buttons.
+- 2026-02-16: Redesigned Stats section — replaced single white card with 6 individual glassmorphism cards, each with unique gradient accents (cyan, amber, violet, rose, emerald, blue), animated count-up numbers, hover lift effects, and gradient icon backgrounds.
